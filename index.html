@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sıcaklık</title>
+    <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-database.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="rklm">© Kağan COŞKUN</div>
+    <div class="app">
+      <div class="header">
+        <h1>Arduino-Firebase-Js Projesi</h1>
+      </div>
+      <div class="content">
+        <div class="ev">Alanya, Ev</div>
+        <div class="temp" id="temp">Sıcaklık Hesaplanıyor...</div>
+      </div>
+    </div>
+
+    <script>
+      var firebaseConfig = {
+        apiKey: "AIzaSyAd4ELIjCKL5xCSw5rXFP5F2iJm6a7uOow",
+        authDomain: "test-f7dd4.firebaseapp.com",
+        databaseURL: "https://test-f7dd4-default-rtdb.firebaseio.com",
+        projectId: "test-f7dd4",
+        storageBucket: "test-f7dd4.appspot.com",
+        messagingSenderId: "301074390199",
+        appId: "1:301074390199:web:762317e6abf06b644d4132",
+        measurementId: "G-BG9VJXZ7LV",
+      };
+      firebase.initializeApp(firebaseConfig);
+      var firebaseRef = firebase.database().ref();
+
+      function getVal() {
+        firebaseRef.once("value", function (snapshot) {
+          snapshot.forEach(function (element) {
+            //console.log(element.val());
+            document.getElementById("temp").innerText =
+              Number(element.val().toFixed(2)) + " °C";
+          });
+        });
+      }
+
+      setInterval(function () {
+        getVal();
+      }, 3000);
+    </script>
+  </body>
+</html>
